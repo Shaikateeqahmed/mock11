@@ -7,7 +7,7 @@ const post = express.Router();
 post.get("/",async(req,res)=>{
     try {
         let posts = await PostModel.find();
-        res.send(posts);
+        res.json(posts);
     } catch (error) {
         console.log(error);
     }
@@ -26,19 +26,19 @@ console.log(currentDate);
     
     let post = new PostModel({AuthorName,NoticeTitle,NoticeDescription, date : currentDate });
     await post.save();
-    res.send("Notice created Successfully!");
+    res.json("Notice created Successfully!");
 })
 
 post.patch("/edit/:id",async(req,res)=>{
     let ID = req.params.id;
     let payload = req.body;
     await PostModel.findByIdAndUpdate({_id:ID},payload);
-    res.send(`Post Of a ${ID} Updated!`)
+    res.json(`Post Of a ${ID} Updated!`)
 })
 
 post.delete("/delete/:id",async(req,res)=>{
     let ID = req.params.id;
     await PostModel.findByIdAndDelete({_id:ID});
-    res.send(`Notice Of a ${ID} Deleted!`)
+    res.json(`Notice Of a ${ID} Deleted!`)
 })
 module.exports={post};
